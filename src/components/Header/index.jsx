@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { auth } from '../../firebase/utils'
 import './styles.scss'
 import Logo from '../../assets/logo.png'
 
-function Header() {
+function Header({ currentUser }) {
     return (
         <div>
             <header className="header">
@@ -15,16 +16,35 @@ function Header() {
                     </div>
 
                     <div className='links'>
-                        <ul>
-                            <li>
-                                <Link to='/registration'>Sign In</Link>
-                            </li>
-                        </ul>
+                        {currentUser && (
+                            <ul>
+                                <li>
+                                    <span onClick={() => auth.signOut()}>
+                                        LogOut
+                                    </span>
+                                </li>
+                            </ul>
+                        )}
+                        {!currentUser && (
+                            <ul>
+                                <li>
+                                    <Link to='/registration'>Sign In</Link>
+                                </li>
+                                <li>
+                                    <Link to='/login'>Log In</Link>
+                                </li>
+                            </ul>    
+                        )}
+                        
                     </div>
                 </div>
             </header>
         </div>
     )
+}
+
+Header.defaultProps = {
+    currentUser: null
 }
 
 export default Header
