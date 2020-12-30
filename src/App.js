@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { auth, handleUserProfile } from './firebase/utils'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
-import SignIn from './pages/SignIn'
+import Register from './pages/Register'
 import Login from './pages/Login'
 import './default.scss'
 
@@ -40,11 +40,13 @@ function App() {
             <HomePage />
           </MainLayout>)
         }/>
-        <Route path='/registration' render={() => (
-          <MainLayout currentUser={currentUser}>
-            <SignIn />
-          </MainLayout>)
-        }/>
+        <Route 
+          path='/registration' 
+          render={() => currentUser? <Redirect to=''/> : (
+            <MainLayout currentUser={currentUser}>
+              <Register />
+            </MainLayout>)}
+        />
         <Route 
           path='/login' 
           render={() => currentUser? <Redirect to='/'/> : (

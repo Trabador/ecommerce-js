@@ -6,8 +6,7 @@ import Logo from '../../assets/logo.png'
 
 function Header({ currentUser }) {
     return (
-        <div>
-            <header className="header">
+        <header className="header">
                 <div className="wrapper">
                     <div className="logo">
                         <Link to='/'>
@@ -28,7 +27,7 @@ function Header({ currentUser }) {
                         {!currentUser && (
                             <ul>
                                 <li>
-                                    <Link to='/registration'>Sign In</Link>
+                                    <Link to='/registration'>Register</Link>
                                 </li>
                                 <li>
                                     <Link to='/login'>Log In</Link>
@@ -38,8 +37,7 @@ function Header({ currentUser }) {
                         
                     </div>
                 </div>
-            </header>
-        </div>
+        </header>
     )
 }
 
