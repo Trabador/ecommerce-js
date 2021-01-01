@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { auth, handleUserProfile } from '../../firebase/utils'
 import Buttons from '../forms/Buttons'
+import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
@@ -34,22 +35,23 @@ function SignUp() {
         }
 
     }
+
+    const showErrors = () => {
+        if(errors <= 0) return
+        return (
+            <ul>
+                {errors.map( (error, index) => (
+                    <li key={index}>
+                        {error}
+                    </li>
+                ))}
+            </ul>
+        )
+    }
     
     return (
-        <div className='signup'>
-            <div className='wrapper'>
-                <h2>SignUp</h2>
-                {
-                    errors.length > 0 && (
-                        <ul>
-                            {errors.map((error, index) => {
-                                return (
-                                    <li key={index}>{error}</li>
-                                )
-                            })}
-                        </ul>
-                    )
-                }
+        <FormCustom headline='Registration'>
+                {showErrors()}
                 <form onSubmit={handleOnSubmit}>
                     <FormInput 
                         type='text'
@@ -83,8 +85,7 @@ function SignUp() {
                         Register
                     </Buttons>
                 </form>
-            </div>
-        </div>
+        </FormCustom>
     )
 }
 

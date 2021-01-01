@@ -1,33 +1,15 @@
-.signin{
+.social-signin{
+    margin: .5rem auto 0;
+}
+
+.recovery{
     display: block;
     width: 100%;
-    max-width: 40rem;
-    margin: 3rem auto 6rem;
-    border: 1px solid black;
+    margin: 1.5rem auto 0;
 
-    .wrapper{
-        padding: 10px;
-        font-size: 2.5rem;
-
-        ul li{
-            list-style-type: none;
-            font-size: 1rem;
-        }
-        
-        h2{
-            display: block;
-            font-size: 3rem;
-            line-height: 1;
-            font-weight: 400;
-            text-transform: uppercase;
-            text-align: center;
-            width: 100%;
-            padding: 0;
-            margin: 0 auto 2.5rem;
-        }
-
-        .social-signin{
-            margin: .5rem auto 0;
-        }
+    a{
+        color: black;
+        font-size: 1.3rem;
+        cursor: pointer;
     }
 }

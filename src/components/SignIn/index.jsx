@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {  auth } from '../../firebase/utils'
 import Buttons from '../forms/Buttons'
+import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
@@ -19,23 +21,24 @@ function SignIn() {
             setEmail('')
             setPass('')
         }
-    }   
+    }
+    
+    const showErrors = () => {
+        if(errors <= 0) return
+        return (
+            <ul>
+                {errors.map( (error, index) => (
+                    <li key={index}>
+                        {error}
+                    </li>
+                ))}
+            </ul>
+        )
+    }
 
     return (
-        <div className='signin'>
-            <div className='wrapper'>
-                <h2>LogIn</h2>
-                {
-                    errors.length > 0 && (
-                        <ul>
-                            {errors.map((error, index) => {
-                                return (
-                                    <li key={index}>{error}</li>
-                                )
-                            })}
-                        </ul>
-                    )
-                }
+        <FormCustom headline='Login'>
+                {showErrors()}
                 <div className='form-wrap'>
                     <form onSubmit={handleOnSubmit}>
                         <FormInput 
@@ -55,6 +58,11 @@ function SignIn() {
                         <Buttons type='submit'>
                             Log In
                         </Buttons>
+                        <div className='recovery'>
+                            <Link to='/recovery'>
+                                Forgot your Password?
+                            </Link>
+                        </div>
                         {/* <div className='social-singin'>
                             <div className='row'>
                                 <Buttons onClick={signInWithGoogle}>
@@ -64,10 +72,7 @@ function SignIn() {
                         </div> */}
                     </form>
                 </div>
-            </div>
-
-            
-        </div>
+        </FormCustom>
     )
 }
 

@@ -5,6 +5,7 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import Recovery from './pages/Recovery'
 import './default.scss'
 
 function App() {
@@ -53,7 +54,13 @@ function App() {
             <MainLayout currentUser={currentUser}>
               <Login />
             </MainLayout>)}
-          />
+        />
+        <Route path='/recovery' render={() => (
+            <MainLayout>
+              <Recovery />
+            </MainLayout>
+          )}
+        />
       </Switch>
     </div>
   );
