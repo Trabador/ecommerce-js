@@ -1,10 +1,13 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/utils'
 import './styles.scss'
 import Logo from '../../assets/logo.png'
 
-function Header({ currentUser }) {
+function Header() {
+    const currentUser = useSelector((state) => state.user.currentUser)
+
     return (
         <header className="header">
                 <div className="wrapper">
@@ -39,10 +42,6 @@ function Header({ currentUser }) {
                 </div>
         </header>
     )
-}
-
-Header.defaultProps = {
-    currentUser: null
 }
 
 export default Header
