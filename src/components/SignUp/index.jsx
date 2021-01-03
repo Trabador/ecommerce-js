@@ -1,57 +1,51 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { auth, handleUserProfile } from '../../firebase/utils'
 import Buttons from '../forms/Buttons'
+import Errors from '../forms/Errors'
 import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
-function SignUp() {
+const SignUp = ({ history }) => {
     const [displayName, setDisplayName] = useState('')
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const [confirm, setConfirm] = useState('')
     const [errors, setErrors] = useState([])
 
+    const resetForm  = () => {
+        setDisplayName('')
+        setEmail('')
+        setPass('')
+        setConfirm('')
+        setErrors([])
+    }
+
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         if(pass !== confirm){
             const err = ['Passwords dont match']
             setErrors([...err])
+            resetForm()
             return
         }
 
         try{
             const { user } = await auth.createUserWithEmailAndPassword(email,pass)
             await handleUserProfile(user, {displayName})
+            resetForm()
+            history.push('/')
         }catch(e){
             console.log(e)
             setErrors([e.message])
-        }finally{
-            /* setDisplayName('')
-            setEmail('')
-            setPass('')
-            setConfirm('')
-            setErrors([]) */
+            resetForm()
         }
-
     }
 
-    const showErrors = () => {
-        if(errors <= 0) return
-        return (
-            <ul>
-                {errors.map( (error, index) => (
-                    <li key={index}>
-                        {error}
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-    
     return (
         <FormCustom headline='Registration'>
-                {showErrors()}
+                <Errors errors={errors}/>
                 <form onSubmit={handleOnSubmit}>
                     <FormInput 
                         type='text'
@@ -89,4 +83,4 @@ function SignUp() {
     )
 }
 
-export default SignUp
+export default withRouter(SignUp)

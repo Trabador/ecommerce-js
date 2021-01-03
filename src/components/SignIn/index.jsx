@@ -1,44 +1,38 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import {  auth } from '../../firebase/utils'
 import Buttons from '../forms/Buttons'
+import Errors from '../forms/Errors'
 import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
-function SignIn() {
+const SignIn = ({ history }) => {
     const [email, setEmail] = useState('')
     const [pass,  setPass] = useState('')
     const [errors, setErrors] = useState([])
+
+    const resetForm = () => {
+        setEmail('')
+        setPass('')
+    }
+
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         try{
             await auth.signInWithEmailAndPassword(email, pass)
+            resetForm()
+            history.push('/')
         }catch(e){
             console.log(e)
             setErrors([e.message])
-        }finally{
-            setEmail('')
-            setPass('')
+            resetForm()
         }
     }
     
-    const showErrors = () => {
-        if(errors <= 0) return
-        return (
-            <ul>
-                {errors.map( (error, index) => (
-                    <li key={index}>
-                        {error}
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-
     return (
         <FormCustom headline='Login'>
-                {showErrors()}
+                <Errors errors={errors}/>
                 <div className='form-wrap'>
                     <form onSubmit={handleOnSubmit}>
                         <FormInput 
@@ -76,4 +70,4 @@ function SignIn() {
     )
 }
 
-export default SignIn
+export default withRouter(SignIn)

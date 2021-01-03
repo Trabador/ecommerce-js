@@ -3,24 +3,26 @@ import { useSelector, useDispatch }  from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { auth, handleUserProfile } from './firebase/utils'
 import { setCurrentUserAction } from './redux'
+//HOC
+import WithAuth from './hoc/withAuth'
+//layout
 import MainLayout from './layouts/MainLayout'
+//pages
 import HomePage from './pages/HomePage'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Recovery from './pages/Recovery'
+import Dashboard from './pages/Dashboard'
 import './default.scss'
 
 function App() {
-  /* const [currentUser, setCurrentUser] = useState(null) */
   const currentUser = useSelector((state) => state.user.currentUser)
   const dispatch = useDispatch()
-
-  
 
   useEffect(() => {
     const authListener = auth.onAuthStateChanged(async userAuth => {
       if(!userAuth){
-        dispatch(setCurrentUserAction(null))
+        dispatch(setCurrentUserAction(userAuth))
       }else{
         const userRef = await handleUserProfile(userAuth)
         userRef.onSnapshot(snapshot => {
@@ -63,6 +65,14 @@ function App() {
             <MainLayout>
               <Recovery />
             </MainLayout>
+          )}
+        />
+        <Route path='/dashboard' render={() => (
+          <WithAuth>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
+          </WithAuth>
           )}
         />
       </Switch>

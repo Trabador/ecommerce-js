@@ -4,6 +4,7 @@ import Buttons from '../forms/Buttons'
 import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import { auth } from '../../firebase/utils'
+import Errors from '../forms/Errors'
 
 function ResetPass(props) {
     const [email, setEmail] = useState('')
@@ -28,22 +29,9 @@ function ResetPass(props) {
         }
     }
 
-    const showErrors = () => {
-        if(errors <= 0) return
-        return (
-            <ul>
-                {errors.map( (error, index) => (
-                    <li key={index}>
-                        {error}
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-
     return (
         <FormCustom headline='Reset Password'>
-                {showErrors()}
+                <Errors errors={errors}/>
                 <form onSubmit={handleOnSubmit}>
                     <FormInput 
                         type='email'
