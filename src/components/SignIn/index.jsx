@@ -1,33 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import {  auth } from '../../firebase/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { signInUserAction, resetFormsAction } from '../../redux/index'
 import Buttons from '../forms/Buttons'
 import Errors from '../forms/Errors'
 import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
+const mapState = ({ user }) => ({
+    signInSuccess: user.signInSuccess,
+    signInErrors: user.signInErrors
+})
+
 const SignIn = ({ history }) => {
+    const dispatch = useDispatch()
+    const { signInSuccess, signInErrors } = useSelector(mapState)
     const [email, setEmail] = useState('')
     const [pass,  setPass] = useState('')
     const [errors, setErrors] = useState([])
+
+    useEffect(() => {
+        if(signInSuccess){
+            resetForm()
+            dispatch(resetFormsAction())
+            history.push('/')    
+        }
+    }, [signInSuccess, dispatch, history])
+    
+    useEffect(() => {
+        if(Array.isArray(signInErrors) && signInErrors.length > 0){
+            setErrors(signInErrors)
+            resetForm() 
+        }
+    }, [signInErrors])
 
     const resetForm = () => {
         setEmail('')
         setPass('')
     }
 
-    const handleOnSubmit = async (e) => {
+    const handleOnSubmit = (e) => {
         e.preventDefault()
-        try{
-            await auth.signInWithEmailAndPassword(email, pass)
-            resetForm()
-            history.push('/')
-        }catch(e){
-            console.log(e)
-            setErrors([e.message])
-            resetForm()
-        }
+        dispatch(signInUserAction({ email, pass }))
     }
     
     return (

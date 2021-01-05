@@ -1,46 +1,52 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { auth, handleUserProfile } from '../../firebase/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { signUpUserAction, resetFormsAction } from '../../redux/index'
 import Buttons from '../forms/Buttons'
 import Errors from '../forms/Errors'
 import FormCustom from '../forms/FormCustom'
 import FormInput from '../forms/FormInput'
 import './styles.scss'
 
+const mapState = ({ user }) => ({
+    signUpSuccess: user.signUpSuccess,
+    signUpErrors: user.signUpErrors
+})
+
 const SignUp = ({ history }) => {
+    const dispatch = useDispatch()
+    const { signUpSuccess, signUpErrors } = useSelector(mapState)
     const [displayName, setDisplayName] = useState('')
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const [confirm, setConfirm] = useState('')
     const [errors, setErrors] = useState([])
 
+    useEffect(() => {
+        if(signUpSuccess){
+            resetForm()
+            dispatch(resetFormsAction())
+            history.push('/')
+        }
+    }, [signUpSuccess, dispatch, history])
+
+    useEffect(() => {
+        if(Array.isArray(signUpErrors) && signUpErrors.length > 0){
+            setErrors(signUpErrors)
+            resetForm() 
+        }
+    }, [signUpErrors])
+
     const resetForm  = () => {
         setDisplayName('')
         setEmail('')
         setPass('')
         setConfirm('')
-        setErrors([])
     }
 
-    const handleOnSubmit = async (e) => {
+    const handleOnSubmit = (e) => {
         e.preventDefault()
-        if(pass !== confirm){
-            const err = ['Passwords dont match']
-            setErrors([...err])
-            resetForm()
-            return
-        }
-
-        try{
-            const { user } = await auth.createUserWithEmailAndPassword(email,pass)
-            await handleUserProfile(user, {displayName})
-            resetForm()
-            history.push('/')
-        }catch(e){
-            console.log(e)
-            setErrors([e.message])
-            resetForm()
-        }
+        dispatch(signUpUserAction({ displayName, email, pass, confirm }))
     }
 
     return (
