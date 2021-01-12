@@ -6,10 +6,10 @@ function Directory() {
         <div className="directory">
             <div className="wrapper">
                 <div className="item coffee">
-                    <a href="/">Buy Coffee</a>
+                    <a href="/coffee">Buy Coffee</a>
                 </div>
                 <div className="item tea">
-                    <a href="/">Buy Tea</a>
+                    <a href="/tea">Buy Tea</a>
                 </div>
             </div>
             

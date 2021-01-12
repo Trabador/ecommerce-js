@@ -13,7 +13,10 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Recovery from './pages/Recovery'
 import Dashboard from './pages/Dashboard'
+import Coffee from './pages/Coffee'
+import Tea from './pages/Tea'
 import './default.scss'
+import Aborrar from './pages/Aborrar'
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -73,6 +76,24 @@ function App() {
               <Dashboard />
             </MainLayout>
           </WithAuth>
+          )}
+        />
+        <Route path='/coffee' render={() => (
+            <MainLayout>
+              <Coffee />
+            </MainLayout>
+          )}
+        />
+        <Route path='/tea' render={() => (
+            <MainLayout>
+              <Tea />
+            </MainLayout>
+          )}
+        />
+        <Route path='/agregar' render={() => (
+            <MainLayout>
+              <Aborrar />
+            </MainLayout>
           )}
         />
       </Switch>
