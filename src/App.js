@@ -15,8 +15,9 @@ import Recovery from './pages/Recovery'
 import Dashboard from './pages/Dashboard'
 import Coffee from './pages/Coffee'
 import Tea from './pages/Tea'
-import './default.scss'
 import Aborrar from './pages/Aborrar'
+import ProductDetails from './pages/ProductDetails'
+import './default.scss'
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -93,6 +94,12 @@ function App() {
         <Route path='/agregar' render={() => (
             <MainLayout>
               <Aborrar />
+            </MainLayout>
+          )}
+        />
+        <Route path='/product/:type/:productId' render={() => (
+            <MainLayout>
+              <ProductDetails />
             </MainLayout>
           )}
         />

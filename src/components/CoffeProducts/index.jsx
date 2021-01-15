@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchCoffeeProductsAction } from '../../redux'
 import LoadMore from '../LoadMore'
 import Product from '../Product'
+import SearchBar from '../SearchBar'
 import './styles.scss'
 
 const mapState = ({ products }) => ({
@@ -23,12 +24,13 @@ function CoffeProducts() {
 
     return (
         <div className='container'>
+            <SearchBar />
             <div className='products'>
             {
                 coffeeProducts.data? 
                     coffeeProducts.data.length > 0 && 
                     coffeeProducts.data.map(product => (
-                        <Product product={product} key={product.id}/>
+                        <Product product={product} key={product.id} type='coffee'/>
                     ))
                     : null
             }
