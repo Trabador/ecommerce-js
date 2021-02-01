@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { searchCoffeProductsAction } from '../../redux'
+import { searchProductsAction } from '../../redux'
 import { withRouter } from 'react-router-dom'
 import FormInput from '../../components/forms/FormInput'
 import Buttons from '../forms/Buttons'
 import './styles.scss'
 
-function SearchBar({ history }) {
+function SearchBar({ productCategory }) {
     const [criteria, setCriteria] = useState('')
     const dispatch = useDispatch()
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
         if(criteria !== ''){
-            dispatch(searchCoffeProductsAction({ criteria }))
+            dispatch(searchProductsAction({ criteria, productCategory }))
         } 
-
     }
 
     return (

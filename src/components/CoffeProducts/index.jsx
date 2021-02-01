@@ -24,7 +24,7 @@ function CoffeProducts() {
 
     return (
         <div className='container'>
-            <SearchBar />
+            <SearchBar productCategory='coffee'/>
             <div className='products'>
             {
                 coffeeProducts.data? 

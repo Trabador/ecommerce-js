@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { fetchProductDetailsAction, resetProductDetailsAction } from '../../redux'
+import { fetchProductDetailsAction, resetProductDetailsAction, addItemToCartAction } from '../../redux'
 import Buttons from '../forms/Buttons'
 import './styles.scss'
 
@@ -23,6 +23,18 @@ function ProductCard() {
         }
     }, [dispatch, productId, type])
 
+    const handleOnClick = (e) => {
+        e.preventDefault()
+        if(!currentUser) return 
+        if(!productDetails) return
+        const toAdd = {
+            ...productDetails,
+            id: productId
+        }
+        dispatch(addItemToCartAction({ userId: currentUser.id, toAdd}))
+
+    }
+
     if(productDetails){
         return (
             <div className='product-card'>
@@ -42,7 +54,7 @@ function ProductCard() {
                         {currentUser
                             ?   <li>
                                     <div className='addToCart'>
-                                        <Buttons type='button'>
+                                        <Buttons type='button' onClick={handleOnClick}>
                                             Add to Cart
                                         </Buttons>
                                     </div>

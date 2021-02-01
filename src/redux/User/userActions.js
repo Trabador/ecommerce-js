@@ -1,10 +1,28 @@
 import userTypes from './userActionTypes'
-import { auth, handleUserProfile } from '../../firebase/utils'
+import cartTypes from '../Cart/cartActionTypes'
+import { auth, firestore, handleUserProfile } from '../../firebase/utils'
 
-export const setCurrentUserAction = (user) => {
-    return {
-        type: userTypes.SET_CURRENT_USER,
-        payload: user
+export const setCurrentUserAction = (user) => dispatch => {
+    if(user){
+        const reference = firestore.collection('users').doc(user.id)
+        reference.get()
+            .then(snapshot => {
+                const data = snapshot.data().cart
+                dispatch({
+                    type: userTypes.SET_CURRENT_USER,
+                    payload: user
+                })
+                dispatch({
+                    type: cartTypes.GET_CART_ITEMS,
+                    payload: data
+                })
+            })
+            .catch(err => console.log(err))
+    }else {
+        dispatch({
+            type: userTypes.SET_CURRENT_USER,
+            payload: user
+        })
     }
 }
 
@@ -101,3 +119,6 @@ export const resetFormsAction = () => {
         payload: null
     }
 }
+
+
+

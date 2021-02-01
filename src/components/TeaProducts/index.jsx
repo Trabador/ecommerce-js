@@ -25,7 +25,7 @@ function TeaProducts() {
 
     return (
         <div className='container'>
-            <SearchBar />
+            <SearchBar productCategory='tea'/>
             <div className='products'>
                 {teaProducts.data?
                     teaProducts.data.length >0 && 

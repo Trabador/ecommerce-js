@@ -2,11 +2,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/utils'
+import { selectCartItemsCount } from '../../redux/Cart/cartSelectors'
 import './styles.scss'
 import Logo from '../../assets/logo.png'
 
+const mapState = (state) => ({
+    currentUser: state.user.currentUser,
+    totalItemsInCart: selectCartItemsCount(state)
+})
+
 function Header() {
-    const currentUser = useSelector((state) => state.user.currentUser)
+    const { currentUser, totalItemsInCart } = useSelector(mapState)
 
     return (
         <header className="header">
@@ -18,29 +24,33 @@ function Header() {
                     </div>
 
                     <div className='links'>
-                        {currentUser && (
-                            <ul>
-                                <li>
+                        <ul>
+
+                            {currentUser && ([
+                                <li key='1'>
+                                    <Link to='/cart'>
+                                        My Cart ({totalItemsInCart})
+                                    </Link>
+                                </li>,
+                                <li key='2'>
                                     <Link to='/dashboard'>My Account</Link>
-                                </li>
-                                <li>
+                                </li>,
+                                <li key='3'>
                                     <span onClick={() => auth.signOut()}>
                                         LogOut
                                     </span>
-                                </li>
-                            </ul>
-                        )}
-                        {!currentUser && (
-                            <ul>
-                                <li>
+                                </li>]
+                            )}
+
+                            {!currentUser && ([
+                                <li key='1'>
                                     <Link to='/registration'>Register</Link>
-                                </li>
-                                <li>
+                                </li>,
+                                <li key='2'>
                                     <Link to='/login'>Log In</Link>
-                                </li>
-                            </ul>    
-                        )}
-                        
+                                </li>]
+                            )}
+                        </ul>
                     </div>
                 </div>
         </header>

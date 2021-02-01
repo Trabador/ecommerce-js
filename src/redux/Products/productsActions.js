@@ -69,8 +69,9 @@ export const fetchCoffeeProductsAction = (startAfterDoc=false, previousData=[]) 
         .catch(err => console.log(err))
 }
 
-export const searchCoffeProductsAction = ({ criteria }) => dispatch => {
-    let referece = firestore.collection(coffeeDB)
+export const searchProductsAction = ({ criteria, productCategory }) => dispatch => {
+    const currentDB = productCategory === 'coffee' ? coffeeDB : teaDB
+    let referece = firestore.collection(currentDB)
     const query = referece.where('productName', '==', criteria)
     
     query
@@ -82,8 +83,9 @@ export const searchCoffeProductsAction = ({ criteria }) => dispatch => {
                     id: doc.id
                 }
             })
+            const type = currentDB === coffeeDB ? productTypes.SEARCH_COFFE_PRODUCTS : productTypes.SEARCH_TEA_PRODUCTS
             dispatch({
-                type: productTypes.SEARCH_COFFE_PRODUCTS,
+                type,
                 payload: {
                     data: resultArray,
                     isLastPage: true

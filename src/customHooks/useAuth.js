@@ -7,11 +7,9 @@ const mapState = (state) => ({
 
 const useAuth = ({ history }) => {
     const { currentUser } = useSelector(mapState)
-    console.log(currentUser)
 
     useEffect(() => {
         if(!currentUser){
-            console.log('entro al if')
             history.push('/login')
         }
     }, [currentUser, history])

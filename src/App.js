@@ -18,6 +18,7 @@ import Tea from './pages/Tea'
 import Aborrar from './pages/Aborrar'
 import ProductDetails from './pages/ProductDetails'
 import './default.scss'
+import Cart from './pages/Cart'
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -101,6 +102,14 @@ function App() {
             <MainLayout>
               <ProductDetails />
             </MainLayout>
+          )}
+        />
+        <Route path='/cart' render={() => (
+          <WithAuth>
+            <MainLayout>
+              <Cart />
+            </MainLayout>
+          </WithAuth>
           )}
         />
       </Switch>
