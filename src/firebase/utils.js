@@ -15,28 +15,34 @@ export const signInWithGoogle = () => {
     auth.signInWithPopup(GoogleProvider)
 }
 
-export const handleUserProfile = async (userAuth, extraData) => {
-    if(!userAuth) return
-    
-    const { uid } = userAuth
-    const userRef = firestore.doc(`users/${uid}`)
-    const snapshot = await userRef.get()
-    if(!snapshot.exists){
-        const { displayName, email } = userAuth;
-        try{
-            const newUser = {
-                displayName,
-                email,
-                cart: [],
-                createdAt: new Date(),
-                ...extraData
+export const handleUserProfile = (userAuth, extraData) => {
+    return new Promise(async (resolve, reject) => {
+        if(!userAuth){
+            reject()
+        }
+        const { uid } = userAuth
+        const userRef = firestore.doc(`users/${uid}`)
+        const snapshot = await userRef.get()
+        if(!snapshot.exists){
+            const { displayName,email } = userAuth
+            try{
+                const newUser = {
+                    displayName,
+                    email,
+                    cart: [],
+                    createdAt: new Date(),
+                    ...extraData
+                }
+                await userRef.set(newUser)
+                resolve(userRef)
             }
-            await userRef.set(newUser)
+            catch(err){
+                console.log(err)
+                reject(err)
+            }
         }
-        catch(err){
-
-        }
-    }
-    return userRef
+        resolve(userRef)
+    })
 }
+
 

@@ -68,25 +68,18 @@ const signUpErrorAction = (errors) => {
     }
 }
 
-export const signUpUserAction = ({ displayName, email, pass, confirm }) => dispatch => {
+export const signUpUserAction = ({ displayName, email, pass, confirm }) =>  async dispatch => {
     if(pass !== confirm){
         const error = ['Passwords don\'t match']
         dispatch(signUpErrorAction(error))
         return
     }
 
-    auth.createUserWithEmailAndPassword(email,pass)
-        .then( async (userCredential) => {
-            const user = userCredential.user
-            await user.updateProfile({ displayName })
-            await handleUserProfile(user, { displayName })
-            dispatch(signUpSuccessAction(true))
-        })
-        .catch(err => {
-            console.log(err.message)
-            const errors = [err.message]
-            dispatch(signUpErrorAction(errors))        
-        })  
+    const { user } = await auth.createUserWithEmailAndPassword(email, pass)
+    await handleUserProfile(user, { displayName })
+    await user.updateProfile({ displayName })
+    dispatch(signUpSuccessAction(true))
+    
 }
 
 const resetPasswordSuccessAction = (isSuccess) => {
