@@ -1,0 +1,15 @@
+.navigation{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-height: 1rem;
+    background-color: black;
+    padding: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    a{
+        color: white;
+        margin: 0 1rem;
+    }
+}

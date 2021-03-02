@@ -7,17 +7,19 @@ export const setCurrentUserAction = (user) => dispatch => {
         const reference = firestore.collection('users').doc(user.id)
         reference.get()
             .then(snapshot => {
-                const data = snapshot.data().cart
+                const data = snapshot.data().cart ? snapshot.data().cart: null
                 dispatch({
                     type: userTypes.SET_CURRENT_USER,
                     payload: user
                 })
-                dispatch({
-                    type: cartTypes.GET_CART_ITEMS,
-                    payload: data
-                })
+                if(data){
+                    dispatch({
+                        type: cartTypes.GET_CART_ITEMS,
+                        payload: data
+                    })
+                }
             })
-            .catch(err => console.log(err))
+            .catch(err => {})
     }else {
         dispatch({
             type: userTypes.SET_CURRENT_USER,
@@ -74,8 +76,10 @@ export const signUpUserAction = ({ displayName, email, pass, confirm }) => dispa
     }
 
     auth.createUserWithEmailAndPassword(email,pass)
-        .then( async user => {
-            await handleUserProfile(user, {displayName})
+        .then( async (userCredential) => {
+            const user = userCredential.user
+            await user.updateProfile({ displayName })
+            await handleUserProfile(user, { displayName })
             dispatch(signUpSuccessAction(true))
         })
         .catch(err => {

@@ -15,27 +15,28 @@ export const signInWithGoogle = () => {
     auth.signInWithPopup(GoogleProvider)
 }
 
-export const handleUserProfile = async (userAuth, additionalData) => {
+export const handleUserProfile = async (userAuth, extraData) => {
     if(!userAuth) return
-
-    const { uid, displayName, email } = userAuth
+    
+    const { uid } = userAuth
     const userRef = firestore.doc(`users/${uid}`)
     const snapshot = await userRef.get()
-
     if(!snapshot.exists){
+        const { displayName, email } = userAuth;
         try{
             const newUser = {
                 displayName,
                 email,
+                cart: [],
                 createdAt: new Date(),
-                ...additionalData
+                ...extraData
             }
             await userRef.set(newUser)
-        }catch(err){
-            console.log(err)
+        }
+        catch(err){
+
         }
     }
-
     return userRef
 }
 

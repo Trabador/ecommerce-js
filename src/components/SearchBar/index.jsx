@@ -26,7 +26,7 @@ function SearchBar({ productCategory }) {
                         name='search'
                         value={criteria}
                         placeholder='Search...'
-                        handleOnChange={(e) => setCriteria(e.target.value)}
+                        handleOnChange={(e) => setCriteria(e.target.value.toLowerCase().trim())}
                     />
                 </div>
                 <div className='search-btn'>

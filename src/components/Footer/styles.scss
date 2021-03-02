@@ -1,8 +1,16 @@
 .footer{
+    margin-top: .4rem;
+    width: 100%;
     .wrapper{
-        max-width: 1450px;
-        padding: 20px 10px;
-        margin: 0 auto;
-        font-size: .8rem;
+        padding: .5rem;
+        box-shadow: 0 -1px 1px 1px rgba(0, 0, 0, 0.2);
+        
+        .legend{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
     }
 }

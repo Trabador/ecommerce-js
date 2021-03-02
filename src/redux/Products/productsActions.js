@@ -72,7 +72,7 @@ export const fetchCoffeeProductsAction = (startAfterDoc=false, previousData=[]) 
 export const searchProductsAction = ({ criteria, productCategory }) => dispatch => {
     const currentDB = productCategory === 'coffee' ? coffeeDB : teaDB
     let referece = firestore.collection(currentDB)
-    const query = referece.where('productName', '==', criteria)
+    const query = referece.where('searchTerms', 'array-contains', criteria)
     
     query
         .get()

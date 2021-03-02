@@ -17,8 +17,9 @@ import Coffee from './pages/Coffee'
 import Tea from './pages/Tea'
 import Aborrar from './pages/Aborrar'
 import ProductDetails from './pages/ProductDetails'
-import './default.scss'
 import Cart from './pages/Cart'
+import UserLayout from './layouts/UserLayout'
+import './default.scss'
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -74,22 +75,22 @@ function App() {
         />
         <Route path='/dashboard' render={() => (
           <WithAuth>
-            <MainLayout>
+            <UserLayout>
               <Dashboard />
-            </MainLayout>
+            </UserLayout>
           </WithAuth>
           )}
         />
         <Route path='/coffee' render={() => (
-            <MainLayout>
+            <UserLayout>
               <Coffee />
-            </MainLayout>
+            </UserLayout>
           )}
         />
         <Route path='/tea' render={() => (
-            <MainLayout>
+            <UserLayout>
               <Tea />
-            </MainLayout>
+            </UserLayout>
           )}
         />
         <Route path='/agregar' render={() => (
@@ -99,16 +100,16 @@ function App() {
           )}
         />
         <Route path='/product/:type/:productId' render={() => (
-            <MainLayout>
+            <UserLayout>
               <ProductDetails />
-            </MainLayout>
+            </UserLayout>
           )}
         />
         <Route path='/cart' render={() => (
           <WithAuth>
-            <MainLayout>
+            <UserLayout>
               <Cart />
-            </MainLayout>
+            </UserLayout>
           </WithAuth>
           )}
         />

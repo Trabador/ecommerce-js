@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from './rootReducer'
-import logger from 'redux-logger'
+//import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-const middlewares = [thunk, logger]
+const middlewares = [thunk]
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 

@@ -6,14 +6,21 @@ const isInCartAlready = (cart, toAdd) => {
 }
 
 export const addItemToCartAction = ({ userId, toAdd }) => dispatch => {
+    const { productName, productPrice, productThumbnail, id } = toAdd
+    const itemRecord = {
+        id,
+        productName,
+        productPrice,
+        productThumbnail,
+    }
     const increment = 1
     const reference = firestore.collection('users').doc(userId)
     reference.get()
         .then(snapshot => {
             let itemsCart = snapshot.data().cart
-            if(isInCartAlready(itemsCart, toAdd)){
+            if(isInCartAlready(itemsCart, itemRecord)){
                 itemsCart = itemsCart.map(item => {
-                    if(item.id === toAdd.id){
+                    if(item.id === itemRecord.id){
                         return {
                             ...item,
                             quantity: item.quantity+increment
@@ -26,7 +33,7 @@ export const addItemToCartAction = ({ userId, toAdd }) => dispatch => {
                 itemsCart = [
                     ...itemsCart,
                     {
-                        ...toAdd,
+                        ...itemRecord,
                         quantity: increment
                     }
                 ]
