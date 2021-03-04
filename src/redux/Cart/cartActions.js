@@ -91,3 +91,15 @@ export const decrementItemFromCartAction = ({ userId, itemToDecrement , items })
             })
         })
 }
+
+export const emptyCart = ({ userId }) => dispatch => {
+    const reference = firestore.collection('users').doc(userId)
+    reference.set({
+        cart: []
+    }, { merge: true })
+        .then(() => {
+            dispatch({
+                type: cartTypes.EMPTY_ITEMS_FROM_CART,
+            })
+        })
+}

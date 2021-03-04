@@ -5,9 +5,9 @@ import { auth, handleUserProfile } from './firebase/utils'
 import { setCurrentUserAction } from './redux'
 //HOC
 import WithAuth from './hoc/withAuth'
-//layout
+//Layout
 import MainLayout from './layouts/MainLayout'
-//pages
+//Pages
 import HomePage from './pages/HomePage'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -15,10 +15,11 @@ import Recovery from './pages/Recovery'
 import Dashboard from './pages/Dashboard'
 import Coffee from './pages/Coffee'
 import Tea from './pages/Tea'
-import Aborrar from './pages/Aborrar'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import UserLayout from './layouts/UserLayout'
+import Purchase from './pages/Purchase'
+//Styles
 import './default.scss'
 
 function App() {
@@ -93,12 +94,7 @@ function App() {
             </UserLayout>
           )}
         />
-        <Route path='/agregar' render={() => (
-            <MainLayout>
-              <Aborrar />
-            </MainLayout>
-          )}
-        />
+        
         <Route path='/product/:type/:productId' render={() => (
             <UserLayout>
               <ProductDetails />
@@ -112,6 +108,14 @@ function App() {
             </UserLayout>
           </WithAuth>
           )}
+        />
+        <Route path='/purchase' render={() => (
+          <WithAuth>
+            <UserLayout>
+              <Purchase />
+            </UserLayout>
+          </WithAuth>
+        )}
         />
       </Switch>
     </div>
