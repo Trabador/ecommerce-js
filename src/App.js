@@ -21,6 +21,7 @@ import UserLayout from './layouts/UserLayout'
 import Purchase from './pages/Purchase'
 //Styles
 import './default.scss'
+import Finish from './pages/Finish'
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -113,6 +114,14 @@ function App() {
           <WithAuth>
             <UserLayout>
               <Purchase />
+            </UserLayout>
+          </WithAuth>
+        )}
+        />
+        <Route path='/finish' render={() => (
+          <WithAuth>
+            <UserLayout>
+              <Finish />
             </UserLayout>
           </WithAuth>
         )}
