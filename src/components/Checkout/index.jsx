@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { selectCartItems, selectCartItemsTotalAmount } from '../../redux/Cart/cartSelectors'
 import { createStructuredSelector } from 'reselect'
-import { removeItemFromCartAction, addItemToCartAction, decrementItemFromCartAction, emptyCart } from '../../redux'
+import { removeItemFromCartAction, addItemToCartAction, decrementItemFromCartAction } from '../../redux'
 import Buttons from '../forms/Buttons'
 import Item from './Item'
 import './styles.scss'
@@ -32,7 +32,6 @@ function Checkout() {
     }
 
     const handleCheckout = () => {
-        dispatch(emptyCart({ userId: currentUser.id }))
         history.push('/purchase')
     }
 
@@ -119,7 +118,7 @@ function Checkout() {
                                                             </td>
                                                             <td>
                                                                 <Buttons onClick={handleCheckout}>
-                                                                    Checkout
+                                                                    Go to Payment
                                                                 </Buttons>
                                                             </td>
                                                         </tr>
